@@ -22,6 +22,16 @@ gulp.task('scripts', (cb) => {
       devtool: args.sourcemaps ? 'inline-source-map': null,
       watch: args.watch,
       plugins: [
+        new webpack.ProvidePlugin({
+          "_": "lodash"
+        }),
+        new webpack.ProvidePlugin({
+          $: 'jquery',
+          jQuery: 'jquery'
+        }),
+        new webpack.ProvidePlugin({
+          "Drop": "drop"
+        }),
         new webpack.DefinePlugin({
           'process.env': {
             'NODE_ENV': JSON.stringify(ENV)
