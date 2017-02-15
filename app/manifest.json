@@ -30,8 +30,8 @@
   "content_scripts": [
     {
       "matches": [
-        "http://*/*",
-        "https://*/*"
+        "http://*.showfax.com/*",
+        "https://*.showfax.com/*"
       ],
       "css": [
         "styles/contentscript.css"
@@ -44,7 +44,9 @@
     }
   ],
   "permissions": [
+    "http://*.showfax.com/*",
+    "https://*.showfax.com/*",
     "tabs",
-    "<all_urls>"
+    "storage"
   ]
 }

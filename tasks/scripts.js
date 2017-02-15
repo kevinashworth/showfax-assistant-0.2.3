@@ -29,9 +29,6 @@ gulp.task('scripts', (cb) => {
           $: 'jquery',
           jQuery: 'jquery'
         }),
-        new webpack.ProvidePlugin({
-          "Drop": "drop"
-        }),
         new webpack.DefinePlugin({
           'process.env': {
             'NODE_ENV': JSON.stringify(ENV)
