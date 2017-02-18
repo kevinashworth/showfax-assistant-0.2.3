@@ -31,3 +31,6 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
 });
+
+var msg_appname = chrome.i18n.getMessage("appName");
+document.getElementById("app").innerHTML = msg_appname;
