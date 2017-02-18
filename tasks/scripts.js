@@ -23,9 +23,6 @@ gulp.task('scripts', (cb) => {
       watch: args.watch,
       plugins: [
         new webpack.ProvidePlugin({
-          "_": "lodash"
-        }),
-        new webpack.ProvidePlugin({
           $: 'jquery',
           jQuery: 'jquery'
         }),

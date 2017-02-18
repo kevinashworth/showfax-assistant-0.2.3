@@ -1,4 +1,4 @@
-var DEBUG = false;
+var DEBUG = true;
 
 var title = ""; // declared here only for prepareDropdown(PROJECTS)
 
@@ -26,7 +26,7 @@ function prepareDropdown(whichDrop) {
     }
   }
 
-  var temp = _.reduce(links, function (accumulator, value) {
+  var temp = links.reduce(function (accumulator, value) {
     return accumulator + "<li><a href='" + value.href + "'>" + value.text + "</a></li>";
   }, "<ul class='dropdown-menu'>");
   temp += "</ul>";
@@ -45,7 +45,8 @@ function prepareDropdown(whichDrop) {
 }
 
 function displayDropdown() {
-  _.each(arguments, function (whichDrop) {
+  var args = [].slice.call(arguments);
+  args.forEach(function (whichDrop) {
     chrome.storage.sync.get("showfax_dropdowns", function (result) {
       var dropdowns = result["showfax_dropdowns"] ? result["showfax_dropdowns"] : {};
       if (dropdowns[whichDrop]) {
@@ -187,14 +188,15 @@ function addShowfaxDropdowns() {
 
 function generateTitle() {
   var title = "Showfax";
-  var args = _.compact(arguments);
+  var args = [].slice.call(arguments);
+  args.filter(Boolean);
 
   if (DEBUG) {
     console.log('arguments: ', arguments);
-    console.log('lodash compact arguments: ', args)
+    console.log('compact arguments: ', args)
   }
 
-  return _.reduce(args, function (accumulator, value) {
+  return args.reduce(function (accumulator, value) {
     return accumulator + " | " + value;
   }, title);
 }
