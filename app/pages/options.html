@@ -1,17 +1,59 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
+
 <head>
-  <meta charset="utf-8" />
-  <title>Options</title>
-  <link rel="stylesheet" type="text/css" href="../styles/options.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+    crossorigin="anonymous">
+    <style>
+      .expando {
+        display: none;
+      }
+      
+      .expando:target {
+        display: block;
+      }
+    </style>
 </head>
+
 <body>
-
-  <label>
-    <input type="checkbox" name="examplOption" checked>
-    Example Option
-  </label>
-
-  <script src="../scripts/options.js"></script>
+  <div style="width:400px" class="container">
+    <form class="form-horizontal" id="clean" action="" method="">
+      <fieldset>
+        <legend>Showfax Chrome Extension</legend>
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="checkboxes">Options</label>
+          <div class="col-md-8">
+            <div class="checkbox">
+              <label for="change_showfax_titles_option">
+                <input type="checkbox" name="checkboxes" id="change_showfax_titles_option" value="1" />
+                 Improve default page titles
+                 <p class="help-block">(tab titles such as Showfax | Episodics | Los Angeles)</p>
+              </label>
+            </div>
+            <div class="checkbox">
+              <label for="add_showfax_dropdowns_option">
+                <input type="checkbox" name="checkboxes" id="add_showfax_dropdowns_option" value="2" />
+                  Add dropdown menus
+                  <p class="help-block">(top links like REGIONS show a dropdown menu)</p>
+              </label>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+    </form>
+    <div>
+      <a href="#Expando1">How to hide in the Chrome menu</a>
+      <ul class="expando" id="Expando1">
+        <li>Right-click this button, and select 'Hide in Chrome Menu'.</li>
+        <li>To show it again, click the Chrome menu, then click the Showfax Chrome Extention button, and select 'Keep in Toolbar'.</li>
+      </ul>
+    </div>
+    <div>Icon made by <a href="http://www.flaticon.com/authors/puppets" title="Puppets">Puppets</a> from
+      <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by
+      <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a>
+    </div>
+  </div>
+  <script src="../scripts/popup.js"></script>
 </body>
+
 </html>
