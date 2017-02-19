@@ -1,4 +1,4 @@
-var DEBUG = true;
+const DEBUG = (process.env.NODE_ENV === 'production' ) ? false : true;
 
 var title = ""; // declared here only for prepareDropdown(PROJECTS)
 
