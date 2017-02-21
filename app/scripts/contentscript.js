@@ -33,10 +33,10 @@ function prepareDropdown(whichDrop) {
   if (DEBUG) { console.info("temp:" + temp); }
 
   // read existing values if any, modify or add new key|value pair, and store back
-  chrome.storage.sync.get("showfax_dropdowns", function (result) {
+  chrome.storage.local.get("showfax_dropdowns", function (result) {
     var dropdowns = result["showfax_dropdowns"] ? result["showfax_dropdowns"] : {};
     dropdowns[whichDrop] = temp;
-    chrome.storage.sync.set({
+    chrome.storage.local.set({
       "showfax_dropdowns": dropdowns
     }, function () {
       if (DEBUG) { console.log("Saved showfax_dropdowns: " + JSON.stringify(dropdowns)); }
@@ -47,7 +47,7 @@ function prepareDropdown(whichDrop) {
 function displayDropdown() {
   var args = [].slice.call(arguments);
   args.forEach(function (whichDrop) {
-    chrome.storage.sync.get("showfax_dropdowns", function (result) {
+    chrome.storage.local.get("showfax_dropdowns", function (result) {
       var dropdowns = result["showfax_dropdowns"] ? result["showfax_dropdowns"] : {};
       if (dropdowns[whichDrop]) {
         var jquerystring = "td:contains(" + whichDrop + ")";
@@ -70,12 +70,12 @@ function displayDropdown() {
 }
 
 function runOnceOnPageLoad() {
-  chrome.storage.sync.get("change_showfax_titles", function (data) {
+  chrome.storage.local.get("change_showfax_titles", function (data) {
     if (data["change_showfax_titles"]) {
       changeShowfaxTitles();
     }
   });
-  chrome.storage.sync.get("add_showfax_dropdowns", function (data) {
+  chrome.storage.local.get("add_showfax_dropdowns", function (data) {
     if (data["add_showfax_dropdowns"]) {
       addShowfaxDropdowns();
     }
