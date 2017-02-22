@@ -130,7 +130,7 @@ function changeShowfaxTitles() {
       category = $("td:contains(Category:)").not(".bodyright").text().substring(10);
       region = $("td.location").text();
       title = generateTitle(project, category, region);
-      captureClicks();
+      captureSigninClicks();
       break;
     case "/member_download2.cfm": // NB: this part of site behaves flaky when selecting role after role
       role = $("a.download").eq(0).text();
@@ -138,11 +138,7 @@ function changeShowfaxTitles() {
       category = $("td:contains(Category:)").not(".bodyright").text().substring(10);
       region = $("td.location").text();
       title = generateTitle(role, project, category, region);
-      chrome.storage.local.get("role_selection_link", function (data) {
-        if (data["role_selection_link"]) {
-          replaceHistory(data["role_selection_link"]);
-        }
-      });
+      replaceSigninHistory();
       break;
     case "/free_download2.cfm": // rare. see http://www.showfax.com/free_download2.cfm?r=966938&l=1 for one
       role = $("a[href^=free]").text();
@@ -207,10 +203,10 @@ function generateTitle() {
   }, title);
 }
 
-function captureClicks() {
+function captureSigninClicks() {
   function clickHandler(event) {
     var theUrl = event.target.href;
-    if (theUrl.indexOf("https://") == -1) { // if user hasn't logged in, probably not https yet but will be when used
+    if (theUrl.indexOf("https://") == -1) { // when user hasn't logged in yet
       theUrl = theUrl.replace("http://", "https://");
     };
     chrome.storage.local.set({
@@ -220,18 +216,15 @@ function captureClicks() {
     });  
   }
 
-  $("a[href*=signin]").click(clickHandler); // add this clickHandler to "signin" links
+  $("a[href*=signin]").click(clickHandler); // add clickHandler only to "signin" links
 }
 
-function replaceHistory(newUrl) {
-    history.replaceState(null, null, newUrl);
-
-  // chrome.history.deleteUrl({ string: "/member_download2.cfm" }, function() {
-  //   chrome.history.addUrl({ string: newUrl}, function() {
-  //     if (DEBUG) { console.log("newUrl: " + newUrl); }
-  //   })
-  // })
-
+function replaceSigninHistory() {
+  chrome.storage.local.get("role_selection_link", function (data) {
+    if (data["role_selection_link"]) {
+      history.replaceState(null, null, data["role_selection_link"]);
+    }
+  });
 }
 
 runOnceOnPageLoad();
