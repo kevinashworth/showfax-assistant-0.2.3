@@ -4,8 +4,8 @@ import 'chromereload/devonly';
 // when the extension is first installed
 chrome.runtime.onInstalled.addListener(function (details) {
   console.log('previousVersion', details.previousVersion);
-  chrome.storage.sync.set({ change_showfax_titles: true });
-  chrome.storage.sync.set({ add_showfax_dropdowns: true });
+  chrome.storage.local.set({ change_showfax_titles: true });
+  chrome.storage.local.set({ add_showfax_dropdowns: true });
 });
 
 // listen for any changes to the URL of any tab.
