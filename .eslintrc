@@ -6,8 +6,12 @@
     "chrome": true,
     "crypto": true
   },
-  "parser": "babel-eslint",
+  "parser": "./node_modules/babel-eslint",
   "rules": {
-    "strict": 0
+    "strict": 0,
+    "quotes": [
+      "error",
+      "double"
+    ]
   }
 }

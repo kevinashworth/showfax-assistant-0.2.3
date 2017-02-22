@@ -1,4 +1,4 @@
-const DEBUG = (process.env.NODE_ENV === 'production' ) ? false : true;
+const DEBUG = (process.env.NODE_ENV === "production") ? false : true;
 
 var title = ""; // declared here only for prepareDropdown(PROJECTS)
 
@@ -7,7 +7,7 @@ function prepareDropdown(whichDrop) {
 
   if (whichDrop === "REGIONS" || whichDrop === "CATEGORIES") {
     // same selector works for REGIONS and CATEGORIES
-    $('table#showcase li a').each(function () {
+    $("table#showcase li a").each(function () {
       links.push({ href: this.href, text: this.text });
     });
   }
@@ -63,7 +63,7 @@ function displayDropdown() {
           console.info("content: " + content);
         }
         target.append(content);
-        target.find("a:contains(...)").closest("li").replaceWith('<li role="separator" class="divider"></li>');
+        target.find("a:contains(...)").closest("li").replaceWith("<li role=\"separator\" class=\"divider\"></li>");
       }
     });
   });
@@ -95,64 +95,64 @@ function changeShowfaxTitles() {
   }
   var region, category, project, searchedInput, role = null;
   switch (window.location.pathname) {
-    case '/':
+    case "/":
       title = generateTitle();
       break;
-    case '/type_selection.cfm':
+    case "/type_selection.cfm":
       var searchParams = new URLSearchParams(window.location.search);
-      var quickInput = searchParams.get('c'); // there will be at most
-      var codeInput = searchParams.get('z'); //  one of these 2 inputs
-      searchedInput = quickInput || codeInput || '';
+      var quickInput = searchParams.get("c"); // there will be at most
+      var codeInput = searchParams.get("z"); //  one of these 2 inputs
+      searchedInput = quickInput || codeInput || "";
       region = $("td.location").text();
       if (searchedInput.length) {
-        searchedInput = '"' + searchedInput + '"';
+        searchedInput = "\"" + searchedInput + "\"";
         if (DEBUG) { console.info("searchedInput:" + searchedInput); }
-        var pageNumber = searchParams.get('p');
+        var pageNumber = searchParams.get("p");
         if (pageNumber) {
-          searchedInput += ' p. ' + pageNumber
+          searchedInput += " p. " + pageNumber
         }
         title = generateTitle(searchedInput, region);
       } else {
         title = generateTitle(region);
       }
       break;
-    case '/project_selection.cfm':
+    case "/project_selection.cfm":
       category = $("td:contains(Category:)").not(".bodyright").text().substring(10)
-        .replace('director', 'CD')
-        .replace('asc', 'ascending order')
-        .replace('desc', 'descending order')
-        .replace('role', 'project');
+        .replace("director", "CD")
+        .replace("asc", "ascending order")
+        .replace("desc", "descending order")
+        .replace("role", "project");
       region = $("td.location").text();
       title = generateTitle(category, region);
       break;
-    case '/role_selection.cfm':
+    case "/role_selection.cfm":
       project = $("td:contains(Project:)").not(".bodyright").text().substring(9);
       category = $("td:contains(Category:)").not(".bodyright").text().substring(10);
       region = $("td.location").text();
       title = generateTitle(project, category, region);
       break;
-    case '/member_download2.cfm': // NB: this part of site behaves flaky when selecting role after role
+    case "/member_download2.cfm": // NB: this part of site behaves flaky when selecting role after role
       role = $("a.download").eq(0).text();
-      project = $($("td:contains(Project:)").not(".bodyright").html().replace(/ &nbsp;/g, '')).text(); // worth it to strip nbsp?
+      project = $($("td:contains(Project:)").not(".bodyright").html().replace(/ &nbsp;/g, "")).text(); // worth it to strip nbsp?
       category = $("td:contains(Category:)").not(".bodyright").text().substring(10);
       region = $("td.location").text();
       title = generateTitle(role, project, category, region);
       break;
-    case '/free_download2.cfm': // rare. see http://www.showfax.com/free_download2.cfm?r=966938&l=1 for one
+    case "/free_download2.cfm": // rare. see http://www.showfax.com/free_download2.cfm?r=966938&l=1 for one
       role = $("a[href^=free]").text();
       project = $("td:contains(Project:)").not(".bodyright").text().substring(9);
       category = $("td:contains(Category:)").not(".bodyright").text().substring(10);
       region = $("td.location").text();
       title = generateTitle(role, project, category, region);
       break;
-    case '/myshowfax/index.cfm':
-      title = generateTitle('My personal information');
+    case "/myshowfax/index.cfm":
+      title = generateTitle("My personal information");
       break;
-    case '/signin.cfm':
-      title = generateTitle('Signin');
+    case "/signin.cfm":
+      title = generateTitle("Signin");
       break;
-    case '/signup.cfm':
-      title = generateTitle('Signup');
+    case "/signup.cfm":
+      title = generateTitle("Signup");
       break;
     default:
       break; // keep existing title on other pages, if any
@@ -164,21 +164,21 @@ function changeShowfaxTitles() {
 
 function addShowfaxDropdowns() {
   switch (window.location.pathname) {
-    case '/':
+    case "/":
       prepareDropdown("REGIONS");
       break;
-    case '/type_selection.cfm':
+    case "/type_selection.cfm":
       displayDropdown("REGIONS");
       prepareDropdown("CATEGORIES");
       break;
-    case '/project_selection.cfm':
+    case "/project_selection.cfm":
       displayDropdown("REGIONS", "CATEGORIES");
       prepareDropdown("PROJECTS");
       break;
-    case '/role_selection.cfm':
-    case '/member_download2.cfm':
-    case '/free_download2.cfm':
-    case '/signin.cfm':
+    case "/role_selection.cfm":
+    case "/member_download2.cfm":
+    case "/free_download2.cfm":
+    case "/signin.cfm":
       displayDropdown("REGIONS", "CATEGORIES", "PROJECTS");
       break;
     default:
@@ -192,8 +192,8 @@ function generateTitle() {
   args.filter(Boolean);
 
   if (DEBUG) {
-    console.log('arguments: ', arguments);
-    console.log('compact arguments: ', args)
+    console.log("arguments: ", arguments);
+    console.log("compact arguments: ", args)
   }
 
   return args.reduce(function (accumulator, value) {
