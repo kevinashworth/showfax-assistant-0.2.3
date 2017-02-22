@@ -1,7 +1,7 @@
 {
   "name": "showfax-assistant",
   "private": true,
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Browser extension to make small but useful changes to Showfax webpages. Not affiliated with Showfax.com",
   "scripts": {
     "start": "npm run dev:chrome",
