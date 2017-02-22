@@ -208,28 +208,29 @@ function generateTitle() {
 }
 
 function captureClicks() {
-  function callback(e) {
-    var e = window.e || e;
-
-    if (e.target.tagName !== "A")
-      return;
-
+  function clickHandler(event) {
+    var theUrl = event.target.href;
+    if (theUrl.indexOf("https://") == -1) { // if user hasn't logged in, probably not https yet but will be when used
+      theUrl = theUrl.replace("http://", "https://");
+    };
     chrome.storage.local.set({
-      "role_selection_link": e.target.href
+      "role_selection_link": theUrl
     }, function () {
-      if (DEBUG) { console.log("callback: " + e.target.href); }
+      if (DEBUG) { console.log("role_selection_link: " + theUrl); }
     });  
   }
 
-  document.addEventListener("click", callback, false);
+  $("a[href*=signin]").click(clickHandler); // add this clickHandler to "signin" links
 }
 
 function replaceHistory(newUrl) {
-  chrome.history.deleteUrl({ string: "/member_download2.cfm" }, function() {
-    chrome.history.addUrl({ string: newUrl}, function() {
-      if (DEBUG) { console.log("newUrl: " + newUrl); }
-    })
-  })
+    history.replaceState(null, null, newUrl);
+
+  // chrome.history.deleteUrl({ string: "/member_download2.cfm" }, function() {
+  //   chrome.history.addUrl({ string: newUrl}, function() {
+  //     if (DEBUG) { console.log("newUrl: " + newUrl); }
+  //   })
+  // })
 
 }
 
