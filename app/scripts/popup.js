@@ -1,6 +1,6 @@
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener("DOMContentLoaded", function () {
 
-  var input1 = document.getElementById('change_showfax_titles_option');
+  var input1 = document.getElementById("change_showfax_titles_option");
 
   // set the initial state of the checkbox
   chrome.storage.local.get("change_showfax_titles", function (data) {
@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
     chrome.storage.local.set({ change_showfax_titles: input1.checked });
   });
 
-  var input2 = document.getElementById('add_showfax_dropdowns_option');
+  var input2 = document.getElementById("add_showfax_dropdowns_option");
 
   // set the initial state of the checkbox
   chrome.storage.local.get("add_showfax_dropdowns", function (data) {

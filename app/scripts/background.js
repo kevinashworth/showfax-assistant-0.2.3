@@ -1,9 +1,9 @@
 // Enable chromereload by uncommenting this line:
-import 'chromereload/devonly';
+import "chromereload/devonly";
 
 // when the extension is first installed
 chrome.runtime.onInstalled.addListener(function (details) {
-  console.log('previousVersion', details.previousVersion);
+  console.log("previousVersion", details.previousVersion);
   chrome.storage.local.set({ change_showfax_titles: true });
   chrome.storage.local.set({ add_showfax_dropdowns: true });
 });
