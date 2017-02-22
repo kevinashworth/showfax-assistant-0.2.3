@@ -130,6 +130,7 @@ function changeShowfaxTitles() {
       category = $("td:contains(Category:)").not(".bodyright").text().substring(10);
       region = $("td.location").text();
       title = generateTitle(project, category, region);
+      captureClicks();
       break;
     case "/member_download2.cfm": // NB: this part of site behaves flaky when selecting role after role
       role = $("a.download").eq(0).text();
@@ -137,6 +138,11 @@ function changeShowfaxTitles() {
       category = $("td:contains(Category:)").not(".bodyright").text().substring(10);
       region = $("td.location").text();
       title = generateTitle(role, project, category, region);
+      chrome.storage.local.get("role_selection_link", function (data) {
+        if (data["role_selection_link"]) {
+          replaceHistory(data["role_selection_link"]);
+        }
+      });
       break;
     case "/free_download2.cfm": // rare. see http://www.showfax.com/free_download2.cfm?r=966938&l=1 for one
       role = $("a[href^=free]").text();
@@ -199,6 +205,32 @@ function generateTitle() {
   return args.reduce(function (accumulator, value) {
     return accumulator + " | " + value;
   }, title);
+}
+
+function captureClicks() {
+  function callback(e) {
+    var e = window.e || e;
+
+    if (e.target.tagName !== "A")
+      return;
+
+    chrome.storage.local.set({
+      "role_selection_link": e.target.href
+    }, function () {
+      if (DEBUG) { console.log("callback: " + e.target.href); }
+    });  
+  }
+
+  document.addEventListener("click", callback, false);
+}
+
+function replaceHistory(newUrl) {
+  chrome.history.deleteUrl({ string: "/member_download2.cfm" }, function() {
+    chrome.history.addUrl({ string: newUrl}, function() {
+      if (DEBUG) { console.log("newUrl: " + newUrl); }
+    })
+  })
+
 }
 
 runOnceOnPageLoad();
