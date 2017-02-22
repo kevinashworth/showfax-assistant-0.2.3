@@ -132,13 +132,13 @@ function changeShowfaxTitles() {
       title = generateTitle(project, category, region);
       captureSigninClicks();
       break;
-    case "/member_download2.cfm": // NB: this part of site behaves flaky when selecting role after role
+    case "/member_download2.cfm":
       role = $("a.download").eq(0).text();
-      project = $($("td:contains(Project:)").not(".bodyright").html().replace(/ &nbsp;/g, "")).text(); // worth it to strip nbsp?
+      project = $("td:contains(Project:)").not(".bodyright").text().substring(9);
       category = $("td:contains(Category:)").not(".bodyright").text().substring(10);
       region = $("td.location").text();
       title = generateTitle(role, project, category, region);
-      replaceSigninHistory();
+      replaceSigninHistory(); // these functions needed for useful history when selecting role after role
       break;
     case "/free_download2.cfm": // rare. see http://www.showfax.com/free_download2.cfm?r=966938&l=1 for one
       role = $("a[href^=free]").text();
