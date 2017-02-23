@@ -2,6 +2,14 @@ const DEBUG = (process.env.NODE_ENV === "production") ? false : true;
 
 var title = ""; // declared here only for prepareDropdown(PROJECTS)
 
+var vendorapi;
+if (__VENDOR__ === "chrome") {
+  vendorapi = chrome;
+}
+else if (__VENDOR__ === "firefox") {
+  vendorapi = browser;
+}
+
 function prepareDropdown(whichDrop) {
   var links = [];
 
@@ -33,10 +41,10 @@ function prepareDropdown(whichDrop) {
   if (DEBUG) { console.info("temp:" + temp); }
 
   // read existing values if any, modify or add new key|value pair, and store back
-  chrome.storage.local.get("showfax_dropdowns", function (result) {
+  vendorapi.storage.local.get("showfax_dropdowns", function (result) {
     var dropdowns = result["showfax_dropdowns"] ? result["showfax_dropdowns"] : {};
     dropdowns[whichDrop] = temp;
-    chrome.storage.local.set({
+    vendorapi.storage.local.set({
       "showfax_dropdowns": dropdowns
     }, function () {
       if (DEBUG) { console.log("Saved showfax_dropdowns: " + JSON.stringify(dropdowns)); }
@@ -47,7 +55,7 @@ function prepareDropdown(whichDrop) {
 function displayDropdown() {
   var args = [].slice.call(arguments);
   args.forEach(function (whichDrop) {
-    chrome.storage.local.get("showfax_dropdowns", function (result) {
+    vendorapi.storage.local.get("showfax_dropdowns", function (result) {
       var dropdowns = result["showfax_dropdowns"] ? result["showfax_dropdowns"] : {};
       if (dropdowns[whichDrop]) {
         var jquerystring = "td:contains(" + whichDrop + ")";
@@ -70,12 +78,12 @@ function displayDropdown() {
 }
 
 function runOnceOnPageLoad() {
-  chrome.storage.local.get("change_showfax_titles", function (data) {
+  vendorapi.storage.local.get("change_showfax_titles", function (data) {
     if (data["change_showfax_titles"]) {
       changeShowfaxTitles();
     }
   });
-  chrome.storage.local.get("add_showfax_dropdowns", function (data) {
+  vendorapi.storage.local.get("add_showfax_dropdowns", function (data) {
     if (data["add_showfax_dropdowns"]) {
       addShowfaxDropdowns();
     }
@@ -209,7 +217,7 @@ function captureSigninClicks() {
     if (theUrl.indexOf("https://") == -1) { // when user hasn't logged in yet
       theUrl = theUrl.replace("http://", "https://");
     };
-    chrome.storage.local.set({
+    vendorapi.storage.local.set({
       "role_selection_link": theUrl
     }, function () {
       if (DEBUG) { console.log("role_selection_link: " + theUrl); }
@@ -220,7 +228,7 @@ function captureSigninClicks() {
 }
 
 function replaceSigninHistory() {
-  chrome.storage.local.get("role_selection_link", function (data) {
+  vendorapi.storage.local.get("role_selection_link", function (data) {
     if (data["role_selection_link"]) {
       history.replaceState(null, null, data["role_selection_link"]);
     }
