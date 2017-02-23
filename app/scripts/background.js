@@ -10,7 +10,7 @@ else if (__VENDOR__ === "firefox") {
 }
 
 // when the extension is first installed
-vendorapi.runtime.onInstalled.addListener(function (details) {
+vendorapi.runtime.onInstalled.addListener(function (details) { // requires Firefox 52 and up
   console.log("previousVersion", details.previousVersion);
   vendorapi.storage.local.set({ change_showfax_titles: true });
   vendorapi.storage.local.set({ add_showfax_dropdowns: false });
