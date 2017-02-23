@@ -267,13 +267,13 @@
   }
   
   .bootstrap-iso a {
-    color: #337ab7;
+    /*color: #337ab7;*/
     text-decoration: none;
   }
   
   .bootstrap-iso a:hover,
   .bootstrap-iso a:focus {
-    color: #23527c;
+    /*color: #23527c;*/
     text-decoration: underline;
   }
   
