@@ -20,7 +20,7 @@ function prepareDropdown(whichDrop) {
     });
     if (projectList.length > limit) {
       // link to nowhere that doesn't add to browser history
-      links.push({ href: "javascript:;", text: "..." })
+      links.push({ href: "javascript:;", text: "————" })
       // link to this page
       links.push({ href: window.location, text: "(see all " + title + ")" });
     }
@@ -63,7 +63,7 @@ function displayDropdown() {
           console.info("content: " + content);
         }
         target.append(content);
-        target.find("a:contains(...)").closest("li").replaceWith("<li role=\"separator\" class=\"divider\"></li>");
+        target.find("a:contains(————)").closest("li").replaceWith("<li role=\"separator\" class=\"divider\"></li>");
       }
     });
   });
