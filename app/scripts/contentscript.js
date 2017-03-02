@@ -1,4 +1,5 @@
 const DEBUG = (process.env.NODE_ENV === "production") ? false : true;
+const showfax_history_default_value = [{ href: "http://showfax.com", text: "Showfax" }];
 
 var title = ""; // declared here only for prepareDropdown(PROJECTS)
 
@@ -159,9 +160,16 @@ function changeShowfaxTitles() {
     default:
       break; // keep existing title on other pages, if any
   }
-  document.title = title;
+  changeTitleTo(title);
+  addToHistoryArray(title, window.location.href);
 
   if (DEBUG) { console.debug(title); }
+}
+
+function changeTitleTo(newTitle) {
+  document.title = newTitle;
+  history.replaceState(null, newTitle, window.location); // this doesn't do anything in current browsers
+
 }
 
 function addShowfaxDropdowns() {
@@ -224,6 +232,21 @@ function replaceSigninHistory() {
     if (data["role_selection_link"]) {
       history.replaceState(null, null, data["role_selection_link"]);
     }
+  });
+}
+
+function addToHistoryArray(title, link) {
+  chrome.storage.local.get("showfax_history", function (result) {
+    var showfax_history = result["showfax_history"] ? result["showfax_history"] : showfax_history_default_value;
+    showfax_history.unshift({ href: link, text: title })
+    if (showfax_history.length > 100) {
+      showfax_history.length = 100;
+    }
+    chrome.storage.local.set({
+      "showfax_history": showfax_history
+    }, function () {
+      if (DEBUG) { console.log("Saved showfax_history: " + JSON.stringify(showfax_history)); }
+    });
   });
 }
 
