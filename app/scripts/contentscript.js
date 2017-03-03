@@ -81,7 +81,6 @@ function runOnceOnPageLoad() {
       addShowfaxDropdowns();
     }
   });
-  addToHistoryArray(title, window.location.href);
 }
 
 function changeShowfaxTitles() {
@@ -90,6 +89,7 @@ function changeShowfaxTitles() {
     console.debug(document.title);
     console.info(window.location.pathname);
   }
+  var isSpecialSigninSituation = false;
 
   title = document.title;
   if (title.length === 0) { // some account pages have no title at all
@@ -140,6 +140,7 @@ function changeShowfaxTitles() {
       category = $("td:contains(Category:)").not(".bodyright").text().substring(10);
       region = $("td.location").text();
       title = generateTitle(role, project, category, region);
+      isSpecialSigninSituation = true;
       replaceSigninHistory(); // these functions needed for useful history when selecting role after role
       break;
     case "/free_download2.cfm": // rare. see http://www.showfax.com/free_download2.cfm?r=966938&l=1 for one
@@ -162,6 +163,8 @@ function changeShowfaxTitles() {
       break; // keep existing title on other pages, if any
   }
   changeTitleTo(title);
+  if (isSpecialSigninSituation) { replaceSigninHistory() } 
+  addToHistoryArray(title, window.location.href);
 
   if (DEBUG) { console.debug(title); }
 }
@@ -232,22 +235,25 @@ function replaceSigninHistory() {
   chrome.storage.local.get("role_selection_link", function (data) {
     if (data["role_selection_link"]) {
       history.replaceState(null, null, data["role_selection_link"]);
+      // TODO: replace in showfax_history, too
+      chrome.storage.local.get("showfax_history", function (result) {
+        var showfax_history = result["showfax_history"] ? result["showfax_history"] : [];
+        showfax_history[0] = { href: data["role_selection_link"], text: title.replace("Showfax | ", "") };
+        chrome.storage.local.set({
+          "showfax_history": showfax_history
+        }, function () {
+          if (DEBUG) { console.log("Replaced showfax_history: " + JSON.stringify(showfax_history)); }
+        });
+      });
+
     }
   });
 }
 
 function addToHistoryArray(title, link) {
-  function doInCurrentTab(tabCallback) {
-    chrome.tabs.query(
-      { currentWindow: true, active: true },
-      function (tabArray) { tabCallback(tabArray[0]); }
-    );
-  }
-  var activeTabId;
-  doInCurrentTab( function(tab) { activeTabId = tab.id } );
   chrome.storage.local.get("showfax_history", function (result) {
     var showfax_history = result["showfax_history"] ? result["showfax_history"] : [];
-    showfax_history.unshift({ href: link, text: title, tabid: activeTabId })
+    showfax_history.unshift({ href: link, text: title.replace("Showfax | ", "") })
     if (showfax_history.length > 100) {
       showfax_history.length = 100;
     }
