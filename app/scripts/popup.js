@@ -32,7 +32,7 @@
 
 // });
 
-const showfax_history_default_value = [{ href: "http://showfax.com", text: "Showfax" }];
+// const showfax_history_default_value = [{ href: "http://showfax.com", text: "Showfax", tabid: null }];
 
 document.addEventListener("DOMContentLoaded", function () {
   display_showfax_history();
@@ -62,7 +62,7 @@ document.getElementById("app").innerHTML = msg_appname;
 
 function display_showfax_history() {
   chrome.storage.local.get("showfax_history", function (result) {
-    var showfax_history = result["showfax_history"] ? result["showfax_history"] : showfax_history_default_value;
+    var showfax_history = result["showfax_history"] ? result["showfax_history"] : [];
     var temp = showfax_history.reduce(function (accumulator, value) {
       var $listitem = $("<li>");
       var $anchor = $("<a>");
@@ -73,8 +73,8 @@ function display_showfax_history() {
        * the bookmark url.
        */
       $anchor.click(function () {
-        chrome.tabs.create({
-          url: value.text
+        chrome.tabs.update(value.tabid, {
+          url: value.href
         });
       });
       $anchor = $listitem.append($anchor);

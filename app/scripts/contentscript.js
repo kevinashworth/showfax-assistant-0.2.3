@@ -1,7 +1,7 @@
 const DEBUG = (process.env.NODE_ENV === "production") ? false : true;
-const showfax_history_default_value = [{ href: "http://showfax.com", text: "Showfax" }];
+// const showfax_history_default_value = [{ href: "http://showfax.com", text: "Showfax", tabid: null }];
 
-var title = ""; // declared here only for prepareDropdown(PROJECTS)
+var title = ""; // declared here for prepareDropdown(PROJECTS) and addToHistoryArray
 
 function prepareDropdown(whichDrop) {
   var links = [];
@@ -81,6 +81,7 @@ function runOnceOnPageLoad() {
       addShowfaxDropdowns();
     }
   });
+  addToHistoryArray(title, window.location.href);
 }
 
 function changeShowfaxTitles() {
@@ -161,7 +162,6 @@ function changeShowfaxTitles() {
       break; // keep existing title on other pages, if any
   }
   changeTitleTo(title);
-  addToHistoryArray(title, window.location.href);
 
   if (DEBUG) { console.debug(title); }
 }
@@ -211,6 +211,7 @@ function generateTitle() {
   }, title);
 }
 
+// without this, can't navigate successfully back and forth roles on same project
 function captureSigninClicks() {
   function clickHandler(event) {
     var theUrl = event.target.href;
@@ -223,10 +224,10 @@ function captureSigninClicks() {
       if (DEBUG) { console.log("role_selection_link: " + theUrl); }
     });  
   }
-
   $("a[href*=signin]").click(clickHandler); // add clickHandler only to "signin" links
 }
 
+// without this, can't navigate successfully back and forth roles on same project
 function replaceSigninHistory() {
   chrome.storage.local.get("role_selection_link", function (data) {
     if (data["role_selection_link"]) {
@@ -236,9 +237,17 @@ function replaceSigninHistory() {
 }
 
 function addToHistoryArray(title, link) {
+  function doInCurrentTab(tabCallback) {
+    chrome.tabs.query(
+      { currentWindow: true, active: true },
+      function (tabArray) { tabCallback(tabArray[0]); }
+    );
+  }
+  var activeTabId;
+  doInCurrentTab( function(tab) { activeTabId = tab.id } );
   chrome.storage.local.get("showfax_history", function (result) {
-    var showfax_history = result["showfax_history"] ? result["showfax_history"] : showfax_history_default_value;
-    showfax_history.unshift({ href: link, text: title })
+    var showfax_history = result["showfax_history"] ? result["showfax_history"] : [];
+    showfax_history.unshift({ href: link, text: title, tabid: activeTabId })
     if (showfax_history.length > 100) {
       showfax_history.length = 100;
     }
