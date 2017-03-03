@@ -62,12 +62,26 @@ document.getElementById("app").innerHTML = msg_appname;
 
 function display_showfax_history() {
   chrome.storage.local.get("showfax_history", function (result) {
-    var showfax_history = result["showfax_history"] ? result["showfax_history"] : [];
+    var showfax_history = result["showfax_history"] ? result["showfax_history"] : showfax_history_default_value;
     var temp = showfax_history.reduce(function (accumulator, value) {
-      return accumulator + "<li><a href='" + value.href + "'>" + value.text + "</a></li>";
-    }, "<ul class='showfax_history'>");
-    temp += "</ul>";
-    console.info("popup temp:" + temp);
+      var $listitem = $("<li>");
+      var $anchor = $("<a>");
+      $anchor.attr("href", value.href);
+      $anchor.text(value.text);
+      /*
+       * When clicking on a bookmark in the extension, a new tab is fired with
+       * the bookmark url.
+       */
+      $anchor.click(function () {
+        chrome.tabs.create({
+          url: value.text
+        });
+      });
+      $anchor = $listitem.append($anchor);
+      return accumulator.append($anchor);
+    }, $("<ul>", {"class": "showfax_history"}));
+    // temp += "</ul>";
+    console.info("popup temp:" + JSON.stringify(temp));
     $("#showfax_history").append(temp);
     
   });
