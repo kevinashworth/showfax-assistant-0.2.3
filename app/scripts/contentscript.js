@@ -19,5 +19,4 @@ function runOnceOnPageLoad() {
   });
 }
 
-
 runOnceOnPageLoad();
