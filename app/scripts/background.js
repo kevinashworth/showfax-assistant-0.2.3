@@ -1,3 +1,9 @@
+"use strict";
+
+import * as Common from "./common";
+import * as Dropdowns from "./dropdowns";
+import * as Titles from "./titles";
+
 // Enable chromereload by uncommenting this line:
 // import "chromereload/devonly";
 

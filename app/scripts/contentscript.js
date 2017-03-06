@@ -1,5 +1,3 @@
-/* globals: dropdowns */
-
 "use strict";
 
 import * as Common from "./common";

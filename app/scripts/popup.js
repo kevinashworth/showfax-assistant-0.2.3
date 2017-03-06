@@ -1,3 +1,9 @@
+"use strict";
+
+import * as Common from "./common";
+import * as Dropdowns from "./dropdowns";
+import * as Titles from "./titles";
+
 document.addEventListener("DOMContentLoaded", function () {
 
   var input1 = document.getElementById("change_showfax_titles_option");
