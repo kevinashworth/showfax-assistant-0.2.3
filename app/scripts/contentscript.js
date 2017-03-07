@@ -1,6 +1,6 @@
 "use strict";
 
-import * as Common from "./common";
+import { DEBUG, showfaxHistoryDefaultValue, regionsDropdownDefaultValue } from "./common";
 import * as Dropdowns from "./dropdowns";
 import * as Titles from "./titles";
 

@@ -1,6 +1,6 @@
 "use strict";
 
-import * as Common from "./common";
+import { DEBUG, regionsDropdownDefaultValue } from "./common";
 
 window.dropdowns = (() => {
 

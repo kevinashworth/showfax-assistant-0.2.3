@@ -1,6 +1,6 @@
 "use strict";
 
-import * as Common from "./common";
+import { DEBUG, showfaxHistoryDefaultValue } from "./common";
 
 window.titles = (() => {
 
