@@ -5,7 +5,7 @@ import * as Dropdowns from "./dropdowns";
 import * as Titles from "./titles";
 
 // Enable chromereload by uncommenting this line:
-// import "chromereload/devonly";
+import "chromereload/devonly";
 
 // when the extension is first installed
 chrome.runtime.onInstalled.addListener(function (details) { // requires Firefox 52 and up

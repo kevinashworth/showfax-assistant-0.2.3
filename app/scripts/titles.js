@@ -4,6 +4,14 @@ import { DEBUG, showfaxHistoryDefaultValue } from "./common";
 
 window.titles = (() => {
 
+  var _title = "Kevin is awesome";
+  function getTitle() {
+    return _title;
+  };
+  function setTitle(t) {
+    _title = t;
+  };
+
   function changeAndSave() {
     if (DEBUG) {
       console.log("changeShowfaxTitles():");
@@ -12,14 +20,14 @@ window.titles = (() => {
     }
     var isSpecialSigninSituation = false;
 
-    title.set(document.title);
-    if (title.length === 0) { // some account pages have no title at all
-      title.set(generateTitle());
+    setTitle(document.title);
+    if (getTitle().length === 0) { // some account pages have no title at all
+      setTitle(generateTitle());
     }
     var region, category, project, searchedInput, role = null;
     switch (window.location.pathname) {
       case "/":
-        title.set(generateTitle());
+        setTitle(generateTitle());
         break;
       case "/type_selection.cfm":
         var searchParams = new URLSearchParams(window.location.search);
@@ -34,9 +42,9 @@ window.titles = (() => {
           if (pageNumber) {
             searchedInput += " p. " + pageNumber
           }
-          title.set(generateTitle(searchedInput, region));
+          setTitle(generateTitle(searchedInput, region));
         } else {
-          title.set(generateTitle(region));
+          setTitle(generateTitle(region));
         }
         break;
       case "/project_selection.cfm":
@@ -46,13 +54,13 @@ window.titles = (() => {
           .replace("desc", "descending order")
           .replace("role", "project");
         region = $("td.location").text();
-        title.set(generateTitle(category, region));
+        setTitle(generateTitle(category, region));
         break;
       case "/role_selection.cfm":
         project = $("td:contains(Project:)").not(".bodyright").text().substring(9);
         category = $("td:contains(Category:)").not(".bodyright").text().substring(10);
         region = $("td.location").text();
-        title.set(generateTitle(project, category, region));
+        setTitle(generateTitle(project, category, region));
         captureSigninClicks();
         break;
       case "/member_download2.cfm":
@@ -60,7 +68,7 @@ window.titles = (() => {
         project = $("td:contains(Project:)").not(".bodyright").text().substring(9);
         category = $("td:contains(Category:)").not(".bodyright").text().substring(10);
         region = $("td.location").text();
-        title.set(generateTitle(role, project, category, region));
+        setTitle(generateTitle(role, project, category, region));
         isSpecialSigninSituation = true;
         replaceSigninHistory(); // these functions needed for useful history when selecting role after role
         break;
@@ -69,25 +77,25 @@ window.titles = (() => {
         project = $("td:contains(Project:)").not(".bodyright").text().substring(9);
         category = $("td:contains(Category:)").not(".bodyright").text().substring(10);
         region = $("td.location").text();
-        title.set(generateTitle(role, project, category, region));
+        setTitle(generateTitle(role, project, category, region));
         break;
       case "/myshowfax/index.cfm":
-        title = generateTitle("My personal information");
+        setTitle(generateTitle("My personal information"));
         break;
       case "/signin.cfm":
-        title = generateTitle("Signin");
+        setTitle(generateTitle("Signin"));
         break;
       case "/signup.cfm":
-        title = generateTitle("Signup");
+        setTitle(generateTitle("Signup"));
         break;
       default:
         break; // keep existing title on other pages, if any
     }
-    changeTitleTo(title.get());
+    changeTitleTo(getTitle());
     if (isSpecialSigninSituation) { replaceSigninHistory() }
-    addToHistoryArray(window.location.href, title.get());
+    addToHistoryArray(window.location.href, getTitle());
 
-    if (DEBUG) { console.debug(title.get()); }
+    if (DEBUG) { console.debug(getTitle()); }
   }
 
   function generateTitle() {
@@ -148,7 +156,7 @@ window.titles = (() => {
         history.replaceState(null, null, data["role_selection_link"]);
         chrome.storage.local.get("showfax_history", function (result) {
           var showfax_history = result["showfax_history"] ? result["showfax_history"] : showfaxHistoryDefaultValue;
-          showfax_history[0] = { href: data["role_selection_link"], text: title.replace("Showfax | ", "") };
+          showfax_history[0] = { href: data["role_selection_link"], text: getTitle().replace("Showfax | ", "") };
           chrome.storage.local.set({
             "showfax_history": showfax_history
           }, function () {
@@ -159,6 +167,6 @@ window.titles = (() => {
     });
   }
 
-  return { changeAndSave };
+  return { getTitle, setTitle, changeAndSave };
 
 })();

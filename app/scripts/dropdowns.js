@@ -1,6 +1,7 @@
 "use strict";
 
 import { DEBUG, regionsDropdownDefaultValue } from "./common";
+import * as Titles from "./titles";
 
 window.dropdowns = (() => {
 
@@ -24,7 +25,7 @@ window.dropdowns = (() => {
         // link to nowhere that doesn't add to browser history
         links.push({ href: "javascript:;", text: "————" })
         // link to this page
-        links.push({ href: window.location, text: "(see all " + title.get() + ")" });
+        links.push({ href: window.location, text: "(see all " + titles.getTitle() + ")" });
       }
     }
 
