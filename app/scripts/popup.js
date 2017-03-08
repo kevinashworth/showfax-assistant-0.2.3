@@ -42,13 +42,30 @@ document.addEventListener("DOMContentLoaded", function () {
   display_showfax_history();
 });
 
+$(function () {
+  $("#search").change(function () {
+    $("#showfax_history").empty();
+    display_showfax_history($("#search").val());
+  });
+});
+
+
 var msg_appname = chrome.i18n.getMessage("appName");
 document.getElementById("app").innerHTML = msg_appname;
 
-function display_showfax_history() {
+function display_showfax_history(query) {
   chrome.storage.local.get("showfax_history", function (result) {
     var showfax_history = result["showfax_history"] ? result["showfax_history"] : [];
     var temp = showfax_history.reduce(function (accumulator, value) {
+      if (String(value.text).indexOf(query) == -1) {
+        return $("<span></span>");
+      }
+
+      if (String(value.href).indexOf(query) == -1) {
+        return $("<span></span>");
+      }
+
+
       var $listitem = $("<li>", {"class": "list-group-item small"});
       var $anchor = $("<a>");
       $anchor.attr("href", value.href);
