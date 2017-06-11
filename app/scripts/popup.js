@@ -46,14 +46,14 @@ $(function () {
 
   var callback = function (event) {
     event.preventDefault();
-    // Do exciting things here.	
+    // Do exciting things here.
     $("#showfax_history").empty();
-    display_showfax_history($("#search").val());
+    display_showfax_history();
   };
 
   $("#search").on({
     submit: callback,
-    keyup: $.debounce(350, callback)
+    keyup: _.debounce(callback, 200)
   });
 
   // $("#search").on("change keypress keyup", function () {
@@ -66,7 +66,8 @@ $(function () {
 var msg_appname = chrome.i18n.getMessage("appName");
 document.getElementById("app").innerHTML = msg_appname;
 
-function display_showfax_history(query) {
+function display_showfax_history() {
+  var query = $("#search").val();
   chrome.storage.local.get("showfax_history", function (result) {
     var showfax_history = result["showfax_history"] ? result["showfax_history"] : [];
     var temp = showfax_history.filter(function (value) {
@@ -91,7 +92,7 @@ function display_showfax_history(query) {
     }, $("<ul>", {"class": "list-group"}));
     // temp += "</ul>";
     $("#showfax_history").append(temp);
-    
+
   });
 }
 
