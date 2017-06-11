@@ -121,7 +121,7 @@ window.titles = (() => {
   function addToHistoryArray(href, text) {
     chrome.storage.local.get("showfax_history", function (result) {
       var showfax_history = result["showfax_history"] ? result["showfax_history"] : showfaxHistoryDefaultValue;
-      showfax_history.unshift({ href: href, text: text.replace("Showfax | ", "") })
+      showfax_history.unshift({ href: href, title_text: text.replace("Showfax | ", "") })
       if (showfax_history.length > 100) {
         showfax_history.length = 100;
       }
@@ -156,7 +156,7 @@ window.titles = (() => {
         history.replaceState(null, null, data["role_selection_link"]);
         chrome.storage.local.get("showfax_history", function (result) {
           var showfax_history = result["showfax_history"] ? result["showfax_history"] : showfaxHistoryDefaultValue;
-          showfax_history[0] = { href: data["role_selection_link"], text: getTitle().replace("Showfax | ", "") };
+          showfax_history[0] = { href: data["role_selection_link"], title_text: getTitle().replace("Showfax | ", "") };
           chrome.storage.local.set({
             "showfax_history": showfax_history
           }, function () {

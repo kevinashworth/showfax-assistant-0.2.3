@@ -39,11 +39,6 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-  display_showfax_history();
-  $("#search").on("input", function () {
-});
-
-$(function () {
 
   var callback = function (event) {
     event.preventDefault();
@@ -57,10 +52,7 @@ $(function () {
     keyup: _.debounce(callback, 200)
   });
 
-  // $("#search").on("change keypress keyup", function () {
-  //   $("#showfax_history").empty();
-  //   display_showfax_history($("#search").val());
-  // });
+  display_showfax_history();
 });
 
 var msg_appname = chrome.i18n.getMessage("appName");
@@ -75,14 +67,14 @@ function display_showfax_history() {
         return true;
       }
       else {
-        return (value.text).toLowerCase().indexOf(query.toLowerCase()) !== -1;
+        return (value.title_text).toLowerCase().indexOf(query.toLowerCase()) !== -1;
       }
     })
     .reduce(function (accumulator, value) {
       var $listitem = $("<li>", {"class": "list-group-item small"});
       var $anchor = $("<a>");
       $anchor.attr("href", value.href);
-      $anchor.text(value.text);
+      $anchor.text(value.title_text);
       $anchor.click(function () {
         chrome.tabs.update( {
           url: value.href
