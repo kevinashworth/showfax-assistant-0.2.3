@@ -4,7 +4,7 @@ Browser extension to make small but useful changes to Showfax webpages. Not affi
 
 ## Install (for ye lovely Beta Testers of version 0.2.3 and higher)
 
-Chrome 49 (or later) is required. [**Download**](https://github.com/kevinashworth/showfax-assistant/releases/download/v0.2.3 /showfax_assistant.zip), unzip, and install:
+Chrome 49 (or later) is required. [**Download**](https://github.com/kevinashworth/showfax-assistant/releases/download/v0.2.3/showfax_assistant.zip), unzip, and install:
 
 - Navigate to chrome://extensions, or click on the 3-dot Customize Chrome icon and select More Tools > Extensions
 - Select "Developer mode" and then click "Load unpacked extension..."
