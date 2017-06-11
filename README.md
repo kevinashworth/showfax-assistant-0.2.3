@@ -2,9 +2,9 @@
 
 Browser extension to make small but useful changes to Showfax webpages. Not affiliated with Showfax.com
 
-## Install (for ye lovely Beta Testers of version 0.2.2 and higher)
+## Install (for ye lovely Beta Testers of version 0.2.3 and higher)
 
-Chrome 49 (or later) is required. [**Download**](https://github.com/kevinashworth/showfax-assistant/releases/download/v0.2.2/showfax_assistant.zip), unzip, and install:
+Chrome 49 (or later) is required. [**Download**](https://github.com/kevinashworth/showfax-assistant/releases/download/v0.2.3  /showfax_assistant.zip), unzip, and install:
 
 - Navigate to chrome://extensions, or click on the 3-dot Customize Chrome icon and select More Tools > Extensions
 - Select "Developer mode" and then click "Load unpacked extension..."
@@ -12,9 +12,9 @@ Chrome 49 (or later) is required. [**Download**](https://github.com/kevinashwort
 
 Assuming there are no errors, the extension should load into your browser. Use it for a little while, then tell me what you think. **That is all!**
 
-*Ignore the rest of the page below here, unless you want to develop this extension on your own with Javascript.*
+*Ignore the rest of the page below here, unless you want to develop this extension on your own with Javascript. What's below came from [HaNdTriX](https://github.com/HaNdTriX/generator-chrome-extension-kickstart)*
 
-# Showfax Assistant 
+# Showfax Assistant
 
 ## Install via Node.js for Developing This Extension with Javascript
 
@@ -80,10 +80,3 @@ The build tool also defines a variable named `ENV` in your scripts. It will be s
 	if(ENV === 'development'){
 		console.log('We are in development mode!');
 	}
-
-
-
-
-
-
-
