@@ -80,7 +80,10 @@ function display_showfax_history() {
           url: value.href
         });
       });
-      return accumulator.append($listitem.append($anchor));
+      var $remove = $("<a>");
+      $remove.attr("href", "#");
+      $remove.text("<span class='glyphicon glyphicon-remove'></span>");
+      return accumulator.append($listitem.append($anchor).append($remove));
     }, $("<ul>", {"class": "list-group"}));
     // temp += "</ul>";
     $("#showfax_history").append(temp);
